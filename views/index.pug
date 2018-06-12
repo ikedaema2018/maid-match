@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  .container
+    h1= title
+    p Welcome to #{title}
+    p まずは会員登録かログインをお願いします
+
+    p メイドの方はこちらから↓
+    a(href="/maid_register") 新規登録
+    a(class="t-30" href="/maid_login") ログイン
+    
+    p ご主人様はこちらから↓
+    a(href="/user_register") 新規登録
+    a(class="t-30" href="/user_login") ログイン
+
