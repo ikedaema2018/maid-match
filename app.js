@@ -53,14 +53,28 @@ passport.use(new LocalStrategy({
 }, function (req, user_id, password, done) {
   //postgresからユーザー情報読み出し
   process.nextTick(function (){
-  if(user_id === "test" && password === "test") {
-    return done(null, user_id)
-  } else {
-    console.log("login error")
-    return done(null,false)
-  }
-})
-}));
+    //データベースでuser_idとpasswordが一致するものを抽出
+//   if(user_id === "test" && password === "test") {
+//     return done(null, user_id)
+//   } else {
+//     console.log("login error")
+//     return done(null,false)
+//   }
+// })
+
+    User.findOne({
+      where: {
+        userId: user_id, pass: password
+      }
+    }).then((user) => {
+      if (!user) {
+        console.log("no");
+        return done(null, false, {message: "ユーザーIDかパスワードが間違っています"})
+      } else{
+        console.log("ok")
+      return done(null, user_id)
+    }})
+})}));
 
 passport.serializeUser(function (user, done) {
   done(null, user);
