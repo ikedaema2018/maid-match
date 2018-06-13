@@ -20,7 +20,7 @@ router.post('/', (req, res, next) => {
     income: req.body.income,
     appeal: req.body.appeal
   })
-  header("Location: ")
+  res.redirect("/user_login");
 })
 
 

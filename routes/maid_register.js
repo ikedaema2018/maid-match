@@ -18,6 +18,7 @@ router.post('/', (req, res, next) => {
      career: req.body.career,
      appeal: req.body.appeal
   })
+  res.redirect("/maid_register");
 })
 
 module.exports = router;
