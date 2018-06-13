@@ -3,7 +3,7 @@ var session = require('express-session');
 
 
 function ensure(res, req, next){
-  if (req.isAuthenticated()) {
+  if (req.isAuthenticated()===true) {
     return next();
   }
   else {

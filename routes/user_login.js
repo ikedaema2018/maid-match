@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 
+
+
 router.get('/', function(req, res, next) {
   res.render('user_login', {
     error: req.query.err ? "ユーザーIDもしくはpasswordが正しくありません" : "",
