@@ -70,6 +70,8 @@ var user_login = require('./routes/user_login');
 var maid_login = require('./routes/maid_login');
 
 var app = express();
+app.use(passport.initialize());
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -86,7 +88,6 @@ app.use(passport.session());
 app.use(session({
     secret: 'your_secret'
 }));
-app.use(passport.initialize());
 
 
 
