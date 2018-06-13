@@ -1,12 +1,13 @@
 var express = require('express');
 var router = express.Router();
 const Maid = require('../models/maid');
+const isAuthenticated = require('./authentication-ensure');
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/',  function(req, res, next) {
   res.render('maid_register', {title: 'Maider'});
 });
 
-router.post('/', (req, res, next) => {
+router.post('/', isAuthenticated, (req, res, next) => {
   Maid.create({
     id: null,
     name: req.body.name,

@@ -17,29 +17,15 @@ Maid.sync();
 
 //ログイン認証
 
+passport.serializeUser(function (user, done) {
+  done(null, user.userId);
+  console.log(user.userId);
+})
 
-var index = require('./routes/index');
-var user_register = require('./routes/user_register');
-var maid_register = require('./routes/maid_register');
-var user_login = require('./routes/user_login');
-var maid_login = require('./routes/maid_login');
-
-var app = express();
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(passport.initialize());
-
-
+passport.deserializeUser(function (user, done) {
+  done(null, user.userId);
+  console.log(user.userId);
+})
 
 //passportのstrategy
 var LocalStrategy = require('passport-local').Strategy;
@@ -72,24 +58,43 @@ passport.use(new LocalStrategy({
         return done(null, false, {message: "ユーザーIDかパスワードが間違っています"})
       } else{
         console.log("ok")
-      return done(null, user_id)
+      return done(null, user)
     }})
 })}));
 
-passport.serializeUser(function (user, done) {
-  done(null, user);
-  console.log(user);
-})
 
-passport.deserializeUser(function (user, done) {
-  done(null, user);
-})
-  
+var index = require('./routes/index');
+var user_register = require('./routes/user_register');
+var maid_register = require('./routes/maid_register');
+var user_login = require('./routes/user_login');
+var maid_login = require('./routes/maid_login');
+
+var app = express();
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
+
+// uncomment after placing your favicon in /public
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.session());
+app.use(session({
+    secret: 'your_secret'
+}));
+app.use(passport.initialize());
+
+
 
 app.use('/', index);
 app.use('/user_register', user_register);
 app.use('/maid_register', maid_register);
 app.use('/user_login', user_login);
+
 
 
 // catch 404 and forward to error handler
